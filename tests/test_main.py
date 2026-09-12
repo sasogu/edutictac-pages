@@ -21,6 +21,12 @@ def test_health() -> None:
     assert resp.json() == {"status": "ok"}
 
 
+def test_head_is_allowed() -> None:
+    with TestClient(main.app) as client:
+        resp = client.head("/owner/repo", follow_redirects=False)
+    assert resp.status_code == 301
+
+
 def test_redirect_without_trailing_slash() -> None:
     with TestClient(main.app) as client:
         resp = client.get("/owner/repo", follow_redirects=False)

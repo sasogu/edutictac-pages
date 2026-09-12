@@ -127,12 +127,12 @@ async def health() -> dict:
     return {"status": "ok"}
 
 
-@app.get("/{owner}/{repo}")
+@app.api_route("/{owner}/{repo}", methods=["GET", "HEAD"])
 async def redirect_to_trailing_slash(owner: str, repo: str) -> RedirectResponse:
     return RedirectResponse(url=f"/{owner}/{repo}/", status_code=301)
 
 
-@app.get("/{owner}/{repo}/{path:path}")
+@app.api_route("/{owner}/{repo}/{path:path}", methods=["GET", "HEAD"])
 async def serve_page(owner: str, repo: str, path: str, request: Request) -> Response:
     if path == "" or path.endswith("/"):
         path = f"{path}index.html"
